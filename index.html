@@ -3,366 +3,381 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>品萱的個人網站 | PinXuan</title>
+  <title>午后咖啡館 — Cafe Gallery</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- jQuery (for interactions) -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <!-- three.js -->
+  <script src="https://unpkg.com/three@0.159.0/build/three.min.js"></script>
 
   <style>
     :root{
-      --bg: #FFF9F7;
-      --card: #FFFFFF;
-      --muted: #7b6f72;
-      --accent: #FFD6C2; /* 溫暖粉橘 */
-      --accent-2: #D6F3FF; /* 清泉藍 */
-      --accent-3: #FFE7F0; /* 淺粉 */
-      --glass: rgba(255,255,255,0.7);
+      --bg: #F7F3F2;
+      --deep: #264653;  /* 主色 */
+      --teal: #2A9D8F;  /* 協調 */
+      --mustard: #E9C46A; /* 點綴 */
+      --warm: #F4A261;  /* 暖色 */
+      --muted: #6b6b6b;
+      --card: #ffffff;
       --radius: 14px;
-      --shadow: 0 8px 24px rgba(21,21,21,0.08);
-      color-scheme: light;
+      --glass: rgba(255,255,255,0.6);
     }
-
-    /* Dark theme variables (toggled via .dark on <html>) */
-    html.dark {
-      --bg: #0F1416;
-      --card: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-      --muted: #bfc8ca;
-      --accent: #FF9F7A;
-      --accent-2: #6fbfe8;
-      --accent-3: #ff98b6;
-      --glass: rgba(255,255,255,0.03);
-      --shadow: 0 8px 24px rgba(0,0,0,0.6);
-      color-scheme: dark;
-    }
-
     *{box-sizing:border-box}
     body{
-      font-family: "Inter", "Nanum Gothic", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans TC", Arial;
-      margin:0;
-      background: linear-gradient(180deg,var(--bg), #FFF4F1 60%);
-      min-height:100vh;
-      color: #222;
-      -webkit-font-smoothing:antialiased;
-      padding:28px;
+      margin:0;font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans TC";background:linear-gradient(180deg,var(--bg),#fff);
+      color:var(--deep);-webkit-font-smoothing:antialiased;
     }
 
+    /* header / nav */
     header{
-      display:flex;
-      gap:18px;
-      align-items:center;
-      justify-content:space-between;
-      max-width:1100px;
-      margin:0 auto 22px;
+      display:flex;align-items:center;justify-content:space-between;padding:22px 28px;background:transparent;position:sticky;top:0;z-index:40;
+      backdrop-filter: blur(6px);
     }
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{
+      width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--teal),var(--warm));box-shadow:0 8px 30px rgba(38,70,83,0.12);
+      display:grid;place-items:center;color:white;font-weight:700;font-size:20px;
+    }
+    .brand h1{margin:0;font-size:18px;letter-spacing:0.3px}
+    nav{display:flex;gap:12px;align-items:center}
+    nav a{padding:8px 12px;border-radius:10px;text-decoration:none;color:var(--deep);font-weight:600}
+    nav a.cta{background:var(--deep);color:white}
 
-    .brand {
-      display:flex; gap:14px; align-items:center;
-    }
-    .avatar {
-      width:74px; height:74px;
-      border-radius:16px;
-      overflow:hidden;
-      flex:0 0 74px;
-      box-shadow:var(--shadow);
-      background:linear-gradient(135deg,var(--accent),var(--accent-2));
-      display:grid; place-items:center;
-    }
-    .avatar svg{width:64px;height:64px; filter: drop-shadow(0 6px 20px rgba(0,0,0,0.08));}
-
-    .name {
-      line-height:1;
-    }
-    .name h1{margin:0;font-size:20px;}
-    .name p{margin:2px 0 0;color:var(--muted);font-size:13px}
-
-    .controls{display:flex;gap:8px;align-items:center}
-    .btn{
-      border:0;padding:8px 12px;border-radius:10px;background:var(--card);box-shadow:var(--shadow);cursor:pointer;font-weight:600
-    }
-
-    main{
-      max-width:1100px;margin:0 auto;display:grid;grid-template-columns: 1fr 360px;gap:22px;
-    }
-
-    /* 左欄（主內容） */
-    .card{
-      background:var(--card);
-      border-radius:var(--radius);
-      padding:18px;
-      box-shadow:var(--shadow);
-    }
-
+    /* hero */
     .hero{
-      display:flex;gap:18px;align-items:center;
+      max-width:1200px;margin:18px auto;padding:26px;border-radius:20px;display:grid;grid-template-columns:1fr 380px;gap:22px;
+      align-items:center;
     }
-    .hero .intro{
-      flex:1;
-    }
-    .greeting{font-size:18px;margin:0 0 8px}
-    .bio{color:var(--muted);margin:0;font-size:14px;line-height:1.6}
-
-    .tags{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
-    .tag{
-      background: linear-gradient(90deg, rgba(255,255,255,0.5), rgba(255,255,255,0.2));
-      padding:6px 10px;border-radius:999px;font-size:13px;color:var(--muted);
-      box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+    .card{
+      background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:0 12px 40px rgba(38,70,83,0.06);
     }
 
-    /* Cards inside main column */
-    .section{margin-top:16px}
-    .section h2{margin:0 0 12px;font-size:16px}
-    .grid{
-      display:grid;gap:12px;
-      grid-template-columns: repeat(3,1fr);
+    .intro h2{margin:0 0 10px;font-size:28px;color:var(--deep)}
+    .intro p{margin:0 0 14px;color:var(--muted);line-height:1.6}
+    .buttons{display:flex;gap:10px}
+    .btn{
+      border:0;padding:10px 14px;border-radius:12px;background:var(--teal);color:white;font-weight:700;cursor:pointer;
+      box-shadow:0 8px 20px rgba(42,157,143,0.12);
     }
-    .grid .mini{
-      padding:12px;border-radius:12px;background:var(--glass);text-align:center;
+    .btn.ghost{background:transparent;color:var(--deep);border:1px solid rgba(38,70,83,0.06)}
+
+    /* menu grid */
+    .menu{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px;
+    }
+    .menu .item{
+      background:linear-gradient(180deg, rgba(255,255,255,0.85), rgba(250,250,250,0.9));
+      border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;align-items:flex-start;cursor:pointer;transition:transform .18s, box-shadow .18s;
+    }
+    .menu .item:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(38,70,83,0.07)}
+    .menu .item h4{margin:0;font-size:15px}
+    .menu .price{margin-top:auto;font-weight:700;color:var(--deep)}
+
+    /* filters */
+    .filters{display:flex;gap:8px;margin-bottom:10px}
+    .chip{padding:6px 10px;border-radius:999px;background:var(--glass);cursor:pointer;border:1px solid rgba(0,0,0,0.04);font-size:14px}
+
+    /* aside info */
+    aside.right{display:flex;flex-direction:column;gap:12px}
+    .hours{display:flex;flex-direction:column;gap:6px}
+    .socials{display:flex;gap:8px}
+    .socials a{display:inline-block;padding:10px;border-radius:12px;background:linear-gradient(90deg,var(--mustard),var(--warm));color:var(--deep);font-weight:700;text-decoration:none}
+
+    /* footer */
+    footer{max-width:1200px;margin:18px auto 40px;color:var(--muted);text-align:center;font-size:14px}
+
+    /* responsive */
+    @media(max-width:980px){
+      .hero{grid-template-columns:1fr;padding:16px}
+      .menu{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:600px){
+      nav{display:none}
+      header{padding:14px}
+      .menu{grid-template-columns:1fr}
+      .logo{width:48px;height:48px}
     }
 
-    /* right column (sidebar) */
-    aside{position:sticky;top:28px;height:fit-content}
-    .profile-stats{display:flex;gap:10px;align-items:center;justify-content:space-between}
-    .stat{background:var(--card);padding:12px;border-radius:12px;flex:1;text-align:center;box-shadow:var(--shadow)}
-    .stat h3{margin:0;font-size:18px}
-    .stat p{margin:4px 0 0;color:var(--muted);font-size:13px}
-
-    /* gallery */
-    .gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-    .gallery img{width:100%;height:120px;object-fit:cover;border-radius:10px;cursor:pointer}
-
-    /* contact form */
-    form{display:grid;gap:8px}
-    input[type="text"], input[type="email"], textarea{
-      width:100%;padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:transparent;
-      resize:vertical;font-size:14px;
-    }
-    textarea{min-height:90px}
-
-    footer{max-width:1100px;margin:18px auto 40px;color:var(--muted);font-size:13px;text-align:center}
-
-    /* small screens */
-    @media (max-width:920px){
-      main{grid-template-columns:1fr; padding-bottom:36px}
-      .grid{grid-template-columns:repeat(2,1fr)}
-    }
-
-    @media (max-width:520px){
-      .grid{grid-template-columns:1fr}
-      .hero{flex-direction:column;align-items:flex-start}
-      .avatar{width:86px;height:86px;border-radius:12px}
-    }
-
-    /* a few micro animations */
-    .btn:hover{transform:translateY(-3px);transition:all .18s ease}
-    .avatar{transition:transform .32s ease}
-    .avatar:hover{transform:translateY(-6px) rotate(-2deg)}
-    .mini{transition:transform .18s ease}
-    .mini:hover{transform:translateY(-6px)}
-    .modal{
-      position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,0.5);z-index:9999;
-    }
-    .modal.show{display:grid}
-    .modal .box{width:min(880px,92%);border-radius:16px;overflow:hidden;background:var(--card);box-shadow:0 18px 60px rgba(0,0,0,0.45)}
-    .modal img{width:100%;height:auto;display:block}
+    /* 3D canvas container */
+    #threeCanvas{width:100%;height:320px;border-radius:12px;overflow:hidden;background:linear-gradient(180deg,#FFF,#F6F5F3);display:block}
+    .floating-caption{display:flex;gap:10px;align-items:center;margin-top:10px}
+    .dot{width:10px;height:10px;border-radius:999px;background:var(--mustard)}
   </style>
 </head>
-
 <body>
+
   <header>
     <div class="brand">
-      <div class="avatar" aria-hidden="true">
-        <!-- Cute simple SVG avatar — 可自行替換成 <img src="yourphoto.jpg"> -->
-        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="avatar">
-          <rect x="0" y="0" width="64" height="64" rx="12" fill="white" opacity="0.06"/>
-          <g transform="translate(8,6)" fill="none" stroke="#fff" stroke-width="2">
-            <circle cx="24" cy="18" r="14" fill="transparent" stroke-opacity="0.15"/>
-            <path d="M12 36c4-4 20-4 24 0" stroke-opacity="0.12" stroke-linecap="round"/>
-          </g>
-        </svg>
-      </div>
-
-      <div class="name">
-        <h1>品萱（PinXuan）</h1>
-        <p>喜歡 Seventeen、韓系氣質可愛風 • 愛陽光與清泉的溫柔</p>
+      <div class="logo" aria-hidden="true">☕</div>
+      <div>
+        <h1>午后咖啡館</h1>
+        <div style="color:var(--muted);font-size:13px">城市裡的溫柔光影</div>
       </div>
     </div>
 
-    <div class="controls">
-      <button class="btn" id="themeToggle" aria-pressed="false">切換主題</button>
-      <a class="btn" href="#contact">聯絡我</a>
-    </div>
+    <nav aria-label="主要選單">
+      <a href="#menu">菜單</a>
+      <a href="#about">關於</a>
+      <a href="#visit">來店</a>
+      <a class="cta" href="#reserve">訂位</a>
+    </nav>
   </header>
 
-  <main>
-    <div>
-      <section class="card hero" aria-labelledby="intro-title">
-        <div class="intro">
-          <p class="greeting" id="intro-title">嗨，我是品萱 👋</p>
-          <p class="bio">我喜歡韓系氣質的柔和美感，也很愛 Seventeen（尤其是淨漢的短髮造型🫶）。我對設計跟動畫有興趣，夢想是做偶像相關的視覺或成為動畫師。這裡放一些我的小作品、心情與旅行靈感。</p>
+  <section class="hero" role="region" aria-label="Hero 區域">
+    <div class="card intro">
+      <h2>用一杯咖啡，做一段午後儀式感</h2>
+      <p>我們在城市的角落，準備好手沖和甜點，等你來坐一會。每週限定甜點與季節濾掛，選一張靠窗的位置，讓陽光成為今天的隨行歌。</p>
 
-          <div class="tags" aria-hidden="true">
-            <span class="tag">Seventeen • Carat</span>
-            <span class="tag">淨漢迷</span>
-            <span class="tag">旅遊靈感</span>
-            <span class="tag">設計手帳</span>
-          </div>
+      <div class="buttons" style="margin-bottom:12px">
+        <button class="btn" id="openMenu">看菜單</button>
+        <button class="btn ghost" id="toggle3D">淡入 3D 裝置</button>
+      </div>
+
+      <div class="card" style="padding:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <strong>本週推薦</strong>
+          <small style="color:var(--muted)">季節限定 · 藍莓乳酪磅蛋糕</small>
         </div>
-
-        <!-- Quick stats / highlight in hero -->
-        <div style="min-width:160px;text-align:right;">
-          <div style="background:linear-gradient(135deg,var(--accent),var(--accent-2));padding:12px;border-radius:12px;color:#2b2b2b;box-shadow:var(--shadow)">
-            <div style="font-weight:700;font-size:18px">夢想職業</div>
-            <div style="opacity:.9;margin-top:6px">idol / 動畫設計</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="card section" aria-labelledby="work-title">
-        <h2 id="work-title">喜好 & 小作品</h2>
-        <div class="grid">
-          <div class="mini">
-            <strong>最愛歌曲</strong>
-            <div style="margin-top:8px;color:var(--muted)">《Second Life》、《Same Dream, Same Mind, Same Night》</div>
-          </div>
-          <div class="mini">
-            <strong>風格靈感</strong>
-            <div style="margin-top:8px;color:var(--muted)">韓系氣質、少女感、清新粉藍</div>
-          </div>
-          <div class="mini">
-            <strong>旅行夢單</strong>
-            <div style="margin-top:8px;color:var(--muted)">義大利各城市、隨遇而安的自由行</div>
-          </div>
-          <div class="mini">
-            <strong>最近收藏</strong>
-            <div style="margin-top:8px;color:var(--muted)">短髮淨漢小卡（虎掌淨）</div>
-          </div>
-          <div class="mini">
-            <strong>作品預覽</strong>
-            <div style="margin-top:8px;color:var(--muted)">視覺設計手稿 / 插畫草圖</div>
-          </div>
-          <div class="mini">
-            <strong>學習中</strong>
-            <div style="margin-top:8px;color:var(--muted)">前端、Photoshop、動畫分鏡</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="card section" aria-labelledby="gallery-title">
-        <h2 id="gallery-title">相簿牆</h2>
-        <p style="margin:0 0 12px;color:var(--muted)">點圖可放大（先放示意圖，請替換成你的照片或小卡）</p>
-        <div class="gallery" id="gallery">
-          <!-- 替換 src 為你的圖片 -->
-          <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=6d3e9b1f" alt="示意1" data-full="https://images.unsplash.com/photo-1513364776144-60967b0f800f">
-          <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=5f6d9b1c" alt="示意2" data-full="https://images.unsplash.com/photo-1524504388940-b1c1722653e1">
-          <img src="https://images.unsplash.com/photo-1542204165-8c4c64e7c3e2?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=8deb4b6d" alt="示意3" data-full="https://images.unsplash.com/photo-1542204165-8c4c64e7c3e2">
-          <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=7e6c4f8f" alt="示意4" data-full="https://images.unsplash.com/photo-1515879218367-8466d910aaa4">
-        </div>
-      </section>
-
-      <section class="card section" id="contact" aria-labelledby="contact-title">
-        <h2 id="contact-title">聯絡我</h2>
-        <p style="margin:0 0 8px;color:var(--muted)">想跟我聊 Seventeen、設計或交換旅行筆記都歡迎～</p>
-
-        <form id="contactForm" onsubmit="return handleSubmit(event)">
-          <input type="text" id="name" placeholder="你的名字" required>
-          <input type="email" id="email" placeholder="你的 Email" required>
-          <textarea id="message" placeholder="想說的話..." required></textarea>
-          <div style="display:flex;gap:8px">
-            <button type="submit" class="btn" style="flex:1">送出（示範）</button>
-            <button type="button" class="btn" onclick="fillDemo()" style="flex:0.6">填入範例</button>
-          </div>
-        </form>
-        <p id="note" style="color:var(--muted);font-size:13px;margin-top:8px">注意：此示範表單不包含後端寄信功能，若要實際收信請連接 Mail API 或使用第三方表單服務。</p>
-      </section>
-    </div>
-
-    <aside>
-      <div class="card profile-stats" aria-label="快速資訊">
-        <div class="stat">
-          <h3>淨漢</h3>
-          <p>我的初戀（XD）</p>
-        </div>
-        <div class="stat">
-          <h3>淺夏 / 氣質</h3>
-          <p>穿搭風格</p>
+        <div class="floating-caption">
+          <div class="dot"></div>
+          <div style="color:var(--muted)">每日 08:00 – 18:00</div>
         </div>
       </div>
 
-      <div class="card section" style="margin-top:14px" aria-labelledby="side-title">
-        <h2 id="side-title">小檔案</h2>
-        <p style="margin:6px 0;color:var(--muted)"><strong>名字：</strong>品萱（PinXuan）</p>
-        <p style="margin:6px 0;color:var(--muted)"><strong>MBTI：</strong>ENFJ</p>
-        <p style="margin:6px 0;color:var(--muted)"><strong>興趣：</strong>設計、偶像文化、旅行</p>
-        <div style="margin-top:8px">
-          <a class="btn" href="#" onclick="alert('點擊下載簡歷（示意）')">下載簡歷</a>
+      <div style="margin-top:12px">
+        <div class="filters" id="filters">
+          <div class="chip active" data-filter="all">全部</div>
+          <div class="chip" data-filter="coffee">咖啡</div>
+          <div class="chip" data-filter="tea">茶飲</div>
+          <div class="chip" data-filter="dessert">甜點</div>
+        </div>
+
+        <div id="menuGrid" class="menu" aria-live="polite">
+          <!-- menu items (JS will handle filtering) -->
+          <div class="item" data-cat="coffee">
+            <h4>手沖單品</h4>
+            <div style="color:var(--muted);font-size:13px">來自肯亞、衣索比亞...</div>
+            <div class="price">NT$150</div>
+          </div>
+          <div class="item" data-cat="coffee">
+            <h4>拿鐵</h4>
+            <div style="color:var(--muted);font-size:13px">經典手打奶泡</div>
+            <div class="price">NT$120</div>
+          </div>
+          <div class="item" data-cat="tea">
+            <h4>玫瑰拿鐵（冷/熱）</h4>
+            <div style="color:var(--muted);font-size:13px">淡雅花香</div>
+            <div class="price">NT$140</div>
+          </div>
+          <div class="item" data-cat="dessert">
+            <h4>藍莓乳酪磅蛋糕</h4>
+            <div style="color:var(--muted);font-size:13px">每日手作</div>
+            <div class="price">NT$95</div>
+          </div>
+          <div class="item" data-cat="dessert">
+            <h4>巧克力布朗尼</h4>
+            <div style="color:var(--muted);font-size:13px">濃郁微苦</div>
+            <div class="price">NT$110</div>
+          </div>
+          <div class="item" data-cat="tea">
+            <h4>冷泡水果茶</h4>
+            <div style="color:var(--muted);font-size:13px">清爽解膩</div>
+            <div class="price">NT$130</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- right column: three.js + info -->
+    <aside class="right">
+      <div class="card" id="threeCard">
+        <!-- three.js canvas-->
+        <div id="threeCanvas" aria-hidden="true"></div>
+        <div style="margin-top:8px;color:var(--muted);font-size:14px">3D 裝置（可切換）</div>
+      </div>
+
+      <div class="card hours">
+        <strong>營業時間</strong>
+        <div style="color:var(--muted)">週一 – 週日：08:00 — 18:00</div>
+        <div style="margin-top:8px"><strong>地址</strong><div style="color:var(--muted)">台北市某某路 123 號</div></div>
+        <div class="socials" style="margin-top:8px">
+          <a href="#" title="Instagram">IG</a>
+          <a href="#" title="Line">LINE</a>
         </div>
       </div>
     </aside>
+  </section>
+
+  <main style="max-width:1200px;margin:0 auto;padding:0 18px">
+    <section id="about" class="card" style="margin-bottom:14px">
+      <h3>關於我們</h3>
+      <p style="color:var(--muted);line-height:1.6">午后咖啡館由一群喜歡手作與光影的人創立。我們相信咖啡是一段被記住的日常──不需要太多儀式，擁有一張舒服的椅子與一杯溫度適中的飲品就好。</p>
+    </section>
+
+    <section id="visit" class="card" style="margin-bottom:14px;display:flex;flex-direction:column;gap:12px">
+      <h3>來店小提醒</h3>
+      <ul style="color:var(--muted);line-height:1.6">
+        <li>假日較忙，建議提前訂位</li>
+        <li>店內提供插座與免費 Wi-Fi（每位低消一杯飲品）</li>
+        <li>我們會不定期推出限定甜點</li>
+      </ul>
+    </section>
+
+    <section id="reserve" class="card" style="padding:16px">
+      <h3>線上訂位（示意）</h3>
+      <form id="reserveForm" style="display:flex;gap:8px;flex-wrap:wrap">
+        <input type="text" id="rname" placeholder="你的名字" style="flex:1;padding:10px;border-radius:10px;border:1px solid #eee" required>
+        <input type="datetime-local" id="rtime" style="padding:10px;border-radius:10px;border:1px solid #eee" required>
+        <button class="btn" type="submit">送出訂位</button>
+      </form>
+    </section>
   </main>
 
   <footer>
-    © <span id="year"></span> 品萱 • 這是我的個人示範頁面 • 想要更多客製化內容，就跟我說！
+    © <span id="year"></span> 午后咖啡館 · 帶走一杯好心情
   </footer>
-
-  <!-- image modal -->
-  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="box" role="document">
-      <img id="modalImg" src="" alt="放大圖片">
-    </div>
-  </div>
 
   <script>
     // set year
-    document.getElementById('year').textContent = new Date().getFullYear();
+    $('#year').text(new Date().getFullYear());
 
-    // theme toggle
-    const themeBtn = document.getElementById('themeToggle');
-    themeBtn.addEventListener('click', () => {
-      const isDark = document.documentElement.classList.toggle('dark');
-      themeBtn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
-      themeBtn.textContent = isDark ? '切換亮色' : '切換暗色';
-    });
-
-    // gallery click -> modal
-    const gallery = document.getElementById('gallery');
-    const modal = document.getElementById('modal');
-    const modalImg = document.getElementById('modalImg');
-    gallery.addEventListener('click', (e) => {
-      const img = e.target.closest('img');
-      if (!img) return;
-      const full = img.dataset.full || img.src;
-      modalImg.src = full;
-      modal.classList.add('show');
-      modal.setAttribute('aria-hidden','false');
-    });
-    modal.addEventListener('click', () => {
-      modal.classList.remove('show');
-      modal.setAttribute('aria-hidden','true');
-      modalImg.src = '';
-    });
-
-    // contact form (frontend only)
-    function handleSubmit(e){
-      e.preventDefault();
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const message = document.getElementById('message').value.trim();
-      if(!name || !email || !message){
-        alert('請填寫所有欄位喔');
-        return false;
+    // filter menu items with jQuery
+    $('#filters').on('click', '.chip', function(){
+      $('#filters .chip').removeClass('active').css('border','1px solid rgba(0,0,0,0.04)');
+      $(this).addClass('active').css('border','1px solid rgba(0,0,0,0.12)');
+      const f = $(this).data('filter');
+      if(f === 'all'){
+        $('.menu .item').fadeIn(180).css('display','flex');
+      } else {
+        $('.menu .item').each(function(){
+          const cat = $(this).data('cat');
+          if(cat === f) $(this).fadeIn(200).css('display','flex'); else $(this).fadeOut(160);
+        });
       }
-      // 前端示範：顯示送出結果（若要真實送出，需串接 API）
-      alert(`謝謝 ${name}！\n我已收到你的訊息（示範）。\nEmail: ${email}`);
-      e.target.reset();
-      return false;
-    }
+    });
 
-    // demo fill
-    function fillDemo(){
-      document.getElementById('name').value = '小明';
-      document.getElementById('email').value = 'xiaoming@example.com';
-      document.getElementById('message').value = '嗨品萱！我也喜歡 Seventeen，想和你交換歌單～';
-    }
+    // open menu button -> scroll to menu
+    $('#openMenu').on('click', function(){
+      $('html,body').animate({scrollTop: $('#menuGrid').offset().top - 60}, 500);
+    });
+
+    // reserve form demo handling
+    $('#reserveForm').on('submit', function(e){
+      e.preventDefault();
+      const name = $('#rname').val().trim(), time = $('#rtime').val();
+      if(!name || !time){ alert('請填寫姓名與時間'); return; }
+      // Demo front-end confirmation (no backend)
+      alert(`謝謝 ${name}！我們已幫你保留 ${time}（示意）`);
+      $(this)[0].reset();
+    });
+
+    // small UI flourish: hover to scale item
+    $('.menu').on('mouseenter', '.item', function(){
+      $(this).css('box-shadow','0 22px 60px rgba(38,70,83,0.08)');
+    }).on('mouseleave','.item', function(){
+      $(this).css('box-shadow','');
+    });
+
+    // three.js scene: simple floating coffee-cup like torus + steam
+    (function(){
+      // basic setup
+      const container = document.getElementById('threeCanvas');
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(35, width/height, 0.1, 1000);
+      camera.position.set(0, 0.6, 3);
+
+      const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      container.appendChild(renderer.domElement);
+
+      // lights
+      const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 0.9);
+      scene.add(hemi);
+      const dir = new THREE.DirectionalLight(0xffffff, 0.6);
+      dir.position.set(5,10,7);
+      scene.add(dir);
+
+      // cup: torus (ring) representing rim, and a half-sphere as body
+      const rimGeom = new THREE.TorusGeometry(0.9, 0.14, 24, 80);
+      const rimMat = new THREE.MeshStandardMaterial({color: 0x2a9d8f, metalness:0.2, roughness:0.4});
+      const rim = new THREE.Mesh(rimGeom, rimMat);
+      rim.rotation.x = Math.PI * 0.5;
+      rim.position.y = 0.05;
+      scene.add(rim);
+
+      const bodyGeom = new THREE.SphereGeometry(0.8, 32, 32, 0, Math.PI*2);
+      // cut lower half
+      bodyGeom.translate(0, -0.65, 0);
+      const bodyMat = new THREE.MeshStandardMaterial({color: 0xF4A261, metalness:0.05, roughness:0.6});
+      const body = new THREE.Mesh(bodyGeom, bodyMat);
+      body.scale.set(1,0.6,1);
+      scene.add(body);
+
+      // coffee surface: small slightly reflective disk
+      const coffeeGeom = new THREE.CircleGeometry(0.62, 32);
+      const coffeeMat = new THREE.MeshStandardMaterial({color:0x4e3629, roughness:0.3, metalness:0.1});
+      const coffee = new THREE.Mesh(coffeeGeom, coffeeMat);
+      coffee.rotation.x = -Math.PI/2;
+      coffee.position.y = 0.12;
+      scene.add(coffee);
+
+      // steam: simple particles using Points
+      const steamCount = 40;
+      const steamGeom = new THREE.BufferGeometry();
+      const positions = new Float32Array(steamCount * 3);
+      for(let i=0;i<steamCount;i++){
+        positions[i*3+0] = (Math.random()-0.5)*0.6;
+        positions[i*3+1] = Math.random()*1.6 + 0.1;
+        positions[i*3+2] = (Math.random()-0.5)*0.6;
+      }
+      steamGeom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const steamMat = new THREE.PointsMaterial({size:6, sizeAttenuation: true, color:0xffffff, transparent:true, opacity:0.85});
+      const steam = new THREE.Points(steamGeom, steamMat);
+      scene.add(steam);
+
+      // subtle floating animation variables
+      let t = 0;
+
+      function animate(){
+        t += 0.01;
+        rim.rotation.y = Math.sin(t*0.6) * 0.08;
+        body.rotation.y = Math.sin(t*0.6) * 0.06;
+        body.position.y = Math.sin(t*0.9) * 0.03;
+        coffee.rotation.z = Math.sin(t*0.4) * 0.02;
+        // animate steam upwards and fade (loop)
+        const pos = steamGeom.attributes.position.array;
+        for(let i=0;i<steamCount;i++){
+          pos[i*3+1] += 0.003 + Math.sin(t*1.5 + i) * 0.0008;
+          // if steam too high, reset
+          if(pos[i*3+1] > 2.2) pos[i*3+1] = 0.4 + Math.random()*0.2;
+        }
+        steamGeom.attributes.position.needsUpdate = true;
+        renderer.render(scene, camera);
+        requestAnimationFrame(animate);
+      }
+      animate();
+
+      // responsive
+      window.addEventListener('resize', () => {
+        const w = container.clientWidth, h = container.clientHeight;
+        renderer.setSize(w,h);
+        camera.aspect = w/h;
+        camera.updateProjectionMatrix();
+      });
+
+      // toggle display (fade)
+      let visible = true;
+      $('#toggle3D').on('click', function(){
+        visible = !visible;
+        $('#threeCard').stop(true).animate({opacity: visible?1:0.06}, 300);
+      });
+    })();
   </script>
 </body>
 </html>
