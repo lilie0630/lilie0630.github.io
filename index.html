@@ -1,383 +1,152 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>午后咖啡館 — Cafe Gallery</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>品萱的咖啡日常</title>
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts：韓系手寫＋簡約無襯線 -->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Pretendard:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <!-- jQuery (for interactions) -->
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <!-- three.js -->
-  <script src="https://unpkg.com/three@0.159.0/build/three.min.js"></script>
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-  <style>
-    :root{
-      --bg: #F7F3F2;
-      --deep: #264653;  /* 主色 */
-      --teal: #2A9D8F;  /* 協調 */
-      --mustard: #E9C46A; /* 點綴 */
-      --warm: #F4A261;  /* 暖色 */
-      --muted: #6b6b6b;
-      --card: #ffffff;
-      --radius: 14px;
-      --glass: rgba(255,255,255,0.6);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans TC";background:linear-gradient(180deg,var(--bg),#fff);
-      color:var(--deep);-webkit-font-smoothing:antialiased;
-    }
+    <style>
+        body {
+            margin: 0;
+            background: #F5F3F0; /* 柔霧奶油色 */
+            font-family: 'Pretendard', sans-serif;
+            color: #5B4F47;
+            letter-spacing: 0.5px;
 
-    /* header / nav */
-    header{
-      display:flex;align-items:center;justify-content:space-between;padding:22px 28px;background:transparent;position:sticky;top:0;z-index:40;
-      backdrop-filter: blur(6px);
-    }
-    .brand{display:flex;align-items:center;gap:14px}
-    .logo{
-      width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--teal),var(--warm));box-shadow:0 8px 30px rgba(38,70,83,0.12);
-      display:grid;place-items:center;color:white;font-weight:700;font-size:20px;
-    }
-    .brand h1{margin:0;font-size:18px;letter-spacing:0.3px}
-    nav{display:flex;gap:12px;align-items:center}
-    nav a{padding:8px 12px;border-radius:10px;text-decoration:none;color:var(--deep);font-weight:600}
-    nav a.cta{background:var(--deep);color:white}
+            /* 韓系質感細紋背景 */
+            background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+        }
 
-    /* hero */
-    .hero{
-      max-width:1200px;margin:18px auto;padding:26px;border-radius:20px;display:grid;grid-template-columns:1fr 380px;gap:22px;
-      align-items:center;
-    }
-    .card{
-      background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:0 12px 40px rgba(38,70,83,0.06);
-    }
+        header {
+            text-align: center;
+            padding: 70px 20px;
+        }
 
-    .intro h2{margin:0 0 10px;font-size:28px;color:var(--deep)}
-    .intro p{margin:0 0 14px;color:var(--muted);line-height:1.6}
-    .buttons{display:flex;gap:10px}
-    .btn{
-      border:0;padding:10px 14px;border-radius:12px;background:var(--teal);color:white;font-weight:700;cursor:pointer;
-      box-shadow:0 8px 20px rgba(42,157,143,0.12);
-    }
-    .btn.ghost{background:transparent;color:var(--deep);border:1px solid rgba(38,70,83,0.06)}
+        h1 {
+            font-family: 'Nanum Pen Script', cursive;
+            font-size: 70px;
+            margin: 0;
+            color: #6E5A54;
+        }
 
-    /* menu grid */
-    .menu{
-      display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px;
-    }
-    .menu .item{
-      background:linear-gradient(180deg, rgba(255,255,255,0.85), rgba(250,250,250,0.9));
-      border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;align-items:flex-start;cursor:pointer;transition:transform .18s, box-shadow .18s;
-    }
-    .menu .item:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(38,70,83,0.07)}
-    .menu .item h4{margin:0;font-size:15px}
-    .menu .price{margin-top:auto;font-weight:700;color:var(--deep)}
+        .subtitle {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #8A817A;
+        }
 
-    /* filters */
-    .filters{display:flex;gap:8px;margin-bottom:10px}
-    .chip{padding:6px 10px;border-radius:999px;background:var(--glass);cursor:pointer;border:1px solid rgba(0,0,0,0.04);font-size:14px}
+        /* 按鈕 */
+        .menu-btn {
+            display: block;
+            margin: 40px auto;
+            padding: 12px 28px;
+            border-radius: 30px;
+            border: none;
+            background: #E3D5CA;
+            color: #5B4F47;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .menu-btn:hover {
+            background: #D6CCC2;
+        }
 
-    /* aside info */
-    aside.right{display:flex;flex-direction:column;gap:12px}
-    .hours{display:flex;flex-direction:column;gap:6px}
-    .socials{display:flex;gap:8px}
-    .socials a{display:inline-block;padding:10px;border-radius:12px;background:linear-gradient(90deg,var(--mustard),var(--warm));color:var(--deep);font-weight:700;text-decoration:none}
+        /* 菜單區域 */
+        #menu-section {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+            animation: fadeIn 1s ease;
+        }
 
-    /* footer */
-    footer{max-width:1200px;margin:18px auto 40px;color:var(--muted);text-align:center;font-size:14px}
+        .menu-title {
+            font-family: 'Nanum Pen Script', cursive;
+            font-size: 50px;
+            margin-bottom: 30px;
+        }
 
-    /* responsive */
-    @media(max-width:980px){
-      .hero{grid-template-columns:1fr;padding:16px}
-      .menu{grid-template-columns:repeat(2,1fr)}
-    }
-    @media(max-width:600px){
-      nav{display:none}
-      header{padding:14px}
-      .menu{grid-template-columns:1fr}
-      .logo{width:48px;height:48px}
-    }
+        .item-box {
+            background: white;
+            width: 280px;
+            padding: 20px;
+            margin: 20px auto;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
 
-    /* 3D canvas container */
-    #threeCanvas{width:100%;height:320px;border-radius:12px;overflow:hidden;background:linear-gradient(180deg,#FFF,#F6F5F3);display:block}
-    .floating-caption{display:flex;gap:10px;align-items:center;margin-top:10px}
-    .dot{width:10px;height:10px;border-radius:999px;background:var(--mustard)}
-  </style>
+        .item-name {
+            font-family: 'Nanum Pen Script', cursive;
+            font-size: 36px;
+            margin: 10px 0;
+        }
+
+        .item-desc {
+            font-size: 14px;
+            color: #7A6F68;
+            margin-bottom: 10px;
+        }
+
+        .item-price {
+            font-weight: 600;
+            color: #5B4F47;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+    </style>
 </head>
 <body>
 
-  <header>
-    <div class="brand">
-      <div class="logo" aria-hidden="true">☕</div>
-      <div>
-        <h1>午后咖啡館</h1>
-        <div style="color:var(--muted);font-size:13px">城市裡的溫柔光影</div>
-      </div>
+<header>
+    <h1>品萱的咖啡日常</h1>
+    <div class="subtitle">a place of soft vibes & sweet moments</div>
+</header>
+
+<button class="menu-btn">☕ 查看今日菜單</button>
+
+<section id="menu-section">
+    <div class="menu-title">Today's Specials</div>
+
+    <div class="item-box">
+        <div class="item-name">雲朵檸檬塔</div>
+        <div class="item-desc">清爽細緻的酸甜，像第一口陽光落在心上。</div>
+        <div class="item-price">$150</div>
     </div>
 
-    <nav aria-label="主要選單">
-      <a href="#menu">菜單</a>
-      <a href="#about">關於</a>
-      <a href="#visit">來店</a>
-      <a class="cta" href="#reserve">訂位</a>
-    </nav>
-  </header>
-
-  <section class="hero" role="region" aria-label="Hero 區域">
-    <div class="card intro">
-      <h2>用一杯咖啡，做一段午後儀式感</h2>
-      <p>我們在城市的角落，準備好手沖和甜點，等你來坐一會。每週限定甜點與季節濾掛，選一張靠窗的位置，讓陽光成為今天的隨行歌。</p>
-
-      <div class="buttons" style="margin-bottom:12px">
-        <button class="btn" id="openMenu">看菜單</button>
-        <button class="btn ghost" id="toggle3D">淡入 3D 裝置</button>
-      </div>
-
-      <div class="card" style="padding:12px">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <strong>本週推薦</strong>
-          <small style="color:var(--muted)">季節限定 · 藍莓乳酪磅蛋糕</small>
-        </div>
-        <div class="floating-caption">
-          <div class="dot"></div>
-          <div style="color:var(--muted)">每日 08:00 – 18:00</div>
-        </div>
-      </div>
-
-      <div style="margin-top:12px">
-        <div class="filters" id="filters">
-          <div class="chip active" data-filter="all">全部</div>
-          <div class="chip" data-filter="coffee">咖啡</div>
-          <div class="chip" data-filter="tea">茶飲</div>
-          <div class="chip" data-filter="dessert">甜點</div>
-        </div>
-
-        <div id="menuGrid" class="menu" aria-live="polite">
-          <!-- menu items (JS will handle filtering) -->
-          <div class="item" data-cat="coffee">
-            <h4>手沖單品</h4>
-            <div style="color:var(--muted);font-size:13px">來自肯亞、衣索比亞...</div>
-            <div class="price">NT$150</div>
-          </div>
-          <div class="item" data-cat="coffee">
-            <h4>拿鐵</h4>
-            <div style="color:var(--muted);font-size:13px">經典手打奶泡</div>
-            <div class="price">NT$120</div>
-          </div>
-          <div class="item" data-cat="tea">
-            <h4>玫瑰拿鐵（冷/熱）</h4>
-            <div style="color:var(--muted);font-size:13px">淡雅花香</div>
-            <div class="price">NT$140</div>
-          </div>
-          <div class="item" data-cat="dessert">
-            <h4>藍莓乳酪磅蛋糕</h4>
-            <div style="color:var(--muted);font-size:13px">每日手作</div>
-            <div class="price">NT$95</div>
-          </div>
-          <div class="item" data-cat="dessert">
-            <h4>巧克力布朗尼</h4>
-            <div style="color:var(--muted);font-size:13px">濃郁微苦</div>
-            <div class="price">NT$110</div>
-          </div>
-          <div class="item" data-cat="tea">
-            <h4>冷泡水果茶</h4>
-            <div style="color:var(--muted);font-size:13px">清爽解膩</div>
-            <div class="price">NT$130</div>
-          </div>
-        </div>
-      </div>
+    <div class="item-box">
+        <div class="item-name">榛果巧克力慕斯</div>
+        <div class="item-desc">濃郁香氣融合滑順口感，大人味的溫柔甜蜜。</div>
+        <div class="item-price">$180</div>
     </div>
 
-    <!-- right column: three.js + info -->
-    <aside class="right">
-      <div class="card" id="threeCard">
-        <!-- three.js canvas-->
-        <div id="threeCanvas" aria-hidden="true"></div>
-        <div style="margin-top:8px;color:var(--muted);font-size:14px">3D 裝置（可切換）</div>
-      </div>
+    <div class="item-box">
+        <div class="item-name">海鹽拿鐵</div>
+        <div class="item-desc">奶香與海鹽交織，柔和順口的療癒系飲品。</div>
+        <div class="item-price">$140</div>
+    </div>
 
-      <div class="card hours">
-        <strong>營業時間</strong>
-        <div style="color:var(--muted)">週一 – 週日：08:00 — 18:00</div>
-        <div style="margin-top:8px"><strong>地址</strong><div style="color:var(--muted)">台北市某某路 123 號</div></div>
-        <div class="socials" style="margin-top:8px">
-          <a href="#" title="Instagram">IG</a>
-          <a href="#" title="Line">LINE</a>
-        </div>
-      </div>
-    </aside>
-  </section>
+    <div class="item-box">
+        <div class="item-name">晨光白桃茶</div>
+        <div class="item-desc">淡淡果香與清茶融合，像春日微風般輕盈。</div>
+        <div class="item-price">$120</div>
+    </div>
+</section>
 
-  <main style="max-width:1200px;margin:0 auto;padding:0 18px">
-    <section id="about" class="card" style="margin-bottom:14px">
-      <h3>關於我們</h3>
-      <p style="color:var(--muted);line-height:1.6">午后咖啡館由一群喜歡手作與光影的人創立。我們相信咖啡是一段被記住的日常──不需要太多儀式，擁有一張舒服的椅子與一杯溫度適中的飲品就好。</p>
-    </section>
-
-    <section id="visit" class="card" style="margin-bottom:14px;display:flex;flex-direction:column;gap:12px">
-      <h3>來店小提醒</h3>
-      <ul style="color:var(--muted);line-height:1.6">
-        <li>假日較忙，建議提前訂位</li>
-        <li>店內提供插座與免費 Wi-Fi（每位低消一杯飲品）</li>
-        <li>我們會不定期推出限定甜點</li>
-      </ul>
-    </section>
-
-    <section id="reserve" class="card" style="padding:16px">
-      <h3>線上訂位（示意）</h3>
-      <form id="reserveForm" style="display:flex;gap:8px;flex-wrap:wrap">
-        <input type="text" id="rname" placeholder="你的名字" style="flex:1;padding:10px;border-radius:10px;border:1px solid #eee" required>
-        <input type="datetime-local" id="rtime" style="padding:10px;border-radius:10px;border:1px solid #eee" required>
-        <button class="btn" type="submit">送出訂位</button>
-      </form>
-    </section>
-  </main>
-
-  <footer>
-    © <span id="year"></span> 午后咖啡館 · 帶走一杯好心情
-  </footer>
-
-  <script>
-    // set year
-    $('#year').text(new Date().getFullYear());
-
-    // filter menu items with jQuery
-    $('#filters').on('click', '.chip', function(){
-      $('#filters .chip').removeClass('active').css('border','1px solid rgba(0,0,0,0.04)');
-      $(this).addClass('active').css('border','1px solid rgba(0,0,0,0.12)');
-      const f = $(this).data('filter');
-      if(f === 'all'){
-        $('.menu .item').fadeIn(180).css('display','flex');
-      } else {
-        $('.menu .item').each(function(){
-          const cat = $(this).data('cat');
-          if(cat === f) $(this).fadeIn(200).css('display','flex'); else $(this).fadeOut(160);
-        });
-      }
+<script>
+    // jQuery 特效：點按鈕後菜單淡入
+    $(".menu-btn").click(function() {
+        $("#menu-section").fadeToggle(600);
     });
+</script>
 
-    // open menu button -> scroll to menu
-    $('#openMenu').on('click', function(){
-      $('html,body').animate({scrollTop: $('#menuGrid').offset().top - 60}, 500);
-    });
-
-    // reserve form demo handling
-    $('#reserveForm').on('submit', function(e){
-      e.preventDefault();
-      const name = $('#rname').val().trim(), time = $('#rtime').val();
-      if(!name || !time){ alert('請填寫姓名與時間'); return; }
-      // Demo front-end confirmation (no backend)
-      alert(`謝謝 ${name}！我們已幫你保留 ${time}（示意）`);
-      $(this)[0].reset();
-    });
-
-    // small UI flourish: hover to scale item
-    $('.menu').on('mouseenter', '.item', function(){
-      $(this).css('box-shadow','0 22px 60px rgba(38,70,83,0.08)');
-    }).on('mouseleave','.item', function(){
-      $(this).css('box-shadow','');
-    });
-
-    // three.js scene: simple floating coffee-cup like torus + steam
-    (function(){
-      // basic setup
-      const container = document.getElementById('threeCanvas');
-      const width = container.clientWidth;
-      const height = container.clientHeight;
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(35, width/height, 0.1, 1000);
-      camera.position.set(0, 0.6, 3);
-
-      const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
-      renderer.setSize(width, height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      container.appendChild(renderer.domElement);
-
-      // lights
-      const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 0.9);
-      scene.add(hemi);
-      const dir = new THREE.DirectionalLight(0xffffff, 0.6);
-      dir.position.set(5,10,7);
-      scene.add(dir);
-
-      // cup: torus (ring) representing rim, and a half-sphere as body
-      const rimGeom = new THREE.TorusGeometry(0.9, 0.14, 24, 80);
-      const rimMat = new THREE.MeshStandardMaterial({color: 0x2a9d8f, metalness:0.2, roughness:0.4});
-      const rim = new THREE.Mesh(rimGeom, rimMat);
-      rim.rotation.x = Math.PI * 0.5;
-      rim.position.y = 0.05;
-      scene.add(rim);
-
-      const bodyGeom = new THREE.SphereGeometry(0.8, 32, 32, 0, Math.PI*2);
-      // cut lower half
-      bodyGeom.translate(0, -0.65, 0);
-      const bodyMat = new THREE.MeshStandardMaterial({color: 0xF4A261, metalness:0.05, roughness:0.6});
-      const body = new THREE.Mesh(bodyGeom, bodyMat);
-      body.scale.set(1,0.6,1);
-      scene.add(body);
-
-      // coffee surface: small slightly reflective disk
-      const coffeeGeom = new THREE.CircleGeometry(0.62, 32);
-      const coffeeMat = new THREE.MeshStandardMaterial({color:0x4e3629, roughness:0.3, metalness:0.1});
-      const coffee = new THREE.Mesh(coffeeGeom, coffeeMat);
-      coffee.rotation.x = -Math.PI/2;
-      coffee.position.y = 0.12;
-      scene.add(coffee);
-
-      // steam: simple particles using Points
-      const steamCount = 40;
-      const steamGeom = new THREE.BufferGeometry();
-      const positions = new Float32Array(steamCount * 3);
-      for(let i=0;i<steamCount;i++){
-        positions[i*3+0] = (Math.random()-0.5)*0.6;
-        positions[i*3+1] = Math.random()*1.6 + 0.1;
-        positions[i*3+2] = (Math.random()-0.5)*0.6;
-      }
-      steamGeom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      const steamMat = new THREE.PointsMaterial({size:6, sizeAttenuation: true, color:0xffffff, transparent:true, opacity:0.85});
-      const steam = new THREE.Points(steamGeom, steamMat);
-      scene.add(steam);
-
-      // subtle floating animation variables
-      let t = 0;
-
-      function animate(){
-        t += 0.01;
-        rim.rotation.y = Math.sin(t*0.6) * 0.08;
-        body.rotation.y = Math.sin(t*0.6) * 0.06;
-        body.position.y = Math.sin(t*0.9) * 0.03;
-        coffee.rotation.z = Math.sin(t*0.4) * 0.02;
-        // animate steam upwards and fade (loop)
-        const pos = steamGeom.attributes.position.array;
-        for(let i=0;i<steamCount;i++){
-          pos[i*3+1] += 0.003 + Math.sin(t*1.5 + i) * 0.0008;
-          // if steam too high, reset
-          if(pos[i*3+1] > 2.2) pos[i*3+1] = 0.4 + Math.random()*0.2;
-        }
-        steamGeom.attributes.position.needsUpdate = true;
-        renderer.render(scene, camera);
-        requestAnimationFrame(animate);
-      }
-      animate();
-
-      // responsive
-      window.addEventListener('resize', () => {
-        const w = container.clientWidth, h = container.clientHeight;
-        renderer.setSize(w,h);
-        camera.aspect = w/h;
-        camera.updateProjectionMatrix();
-      });
-
-      // toggle display (fade)
-      let visible = true;
-      $('#toggle3D').on('click', function(){
-        visible = !visible;
-        $('#threeCard').stop(true).animate({opacity: visible?1:0.06}, 300);
-      });
-    })();
-  </script>
 </body>
 </html>
