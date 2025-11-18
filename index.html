@@ -1,1 +1,368 @@
-HELLO WORLD
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>品萱的個人網站 | PinXuan</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #FFF9F7;
+      --card: #FFFFFF;
+      --muted: #7b6f72;
+      --accent: #FFD6C2; /* 溫暖粉橘 */
+      --accent-2: #D6F3FF; /* 清泉藍 */
+      --accent-3: #FFE7F0; /* 淺粉 */
+      --glass: rgba(255,255,255,0.7);
+      --radius: 14px;
+      --shadow: 0 8px 24px rgba(21,21,21,0.08);
+      color-scheme: light;
+    }
+
+    /* Dark theme variables (toggled via .dark on <html>) */
+    html.dark {
+      --bg: #0F1416;
+      --card: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      --muted: #bfc8ca;
+      --accent: #FF9F7A;
+      --accent-2: #6fbfe8;
+      --accent-3: #ff98b6;
+      --glass: rgba(255,255,255,0.03);
+      --shadow: 0 8px 24px rgba(0,0,0,0.6);
+      color-scheme: dark;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      font-family: "Inter", "Nanum Gothic", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans TC", Arial;
+      margin:0;
+      background: linear-gradient(180deg,var(--bg), #FFF4F1 60%);
+      min-height:100vh;
+      color: #222;
+      -webkit-font-smoothing:antialiased;
+      padding:28px;
+    }
+
+    header{
+      display:flex;
+      gap:18px;
+      align-items:center;
+      justify-content:space-between;
+      max-width:1100px;
+      margin:0 auto 22px;
+    }
+
+    .brand {
+      display:flex; gap:14px; align-items:center;
+    }
+    .avatar {
+      width:74px; height:74px;
+      border-radius:16px;
+      overflow:hidden;
+      flex:0 0 74px;
+      box-shadow:var(--shadow);
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:grid; place-items:center;
+    }
+    .avatar svg{width:64px;height:64px; filter: drop-shadow(0 6px 20px rgba(0,0,0,0.08));}
+
+    .name {
+      line-height:1;
+    }
+    .name h1{margin:0;font-size:20px;}
+    .name p{margin:2px 0 0;color:var(--muted);font-size:13px}
+
+    .controls{display:flex;gap:8px;align-items:center}
+    .btn{
+      border:0;padding:8px 12px;border-radius:10px;background:var(--card);box-shadow:var(--shadow);cursor:pointer;font-weight:600
+    }
+
+    main{
+      max-width:1100px;margin:0 auto;display:grid;grid-template-columns: 1fr 360px;gap:22px;
+    }
+
+    /* 左欄（主內容） */
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
+
+    .hero{
+      display:flex;gap:18px;align-items:center;
+    }
+    .hero .intro{
+      flex:1;
+    }
+    .greeting{font-size:18px;margin:0 0 8px}
+    .bio{color:var(--muted);margin:0;font-size:14px;line-height:1.6}
+
+    .tags{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .tag{
+      background: linear-gradient(90deg, rgba(255,255,255,0.5), rgba(255,255,255,0.2));
+      padding:6px 10px;border-radius:999px;font-size:13px;color:var(--muted);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+    }
+
+    /* Cards inside main column */
+    .section{margin-top:16px}
+    .section h2{margin:0 0 12px;font-size:16px}
+    .grid{
+      display:grid;gap:12px;
+      grid-template-columns: repeat(3,1fr);
+    }
+    .grid .mini{
+      padding:12px;border-radius:12px;background:var(--glass);text-align:center;
+    }
+
+    /* right column (sidebar) */
+    aside{position:sticky;top:28px;height:fit-content}
+    .profile-stats{display:flex;gap:10px;align-items:center;justify-content:space-between}
+    .stat{background:var(--card);padding:12px;border-radius:12px;flex:1;text-align:center;box-shadow:var(--shadow)}
+    .stat h3{margin:0;font-size:18px}
+    .stat p{margin:4px 0 0;color:var(--muted);font-size:13px}
+
+    /* gallery */
+    .gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    .gallery img{width:100%;height:120px;object-fit:cover;border-radius:10px;cursor:pointer}
+
+    /* contact form */
+    form{display:grid;gap:8px}
+    input[type="text"], input[type="email"], textarea{
+      width:100%;padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:transparent;
+      resize:vertical;font-size:14px;
+    }
+    textarea{min-height:90px}
+
+    footer{max-width:1100px;margin:18px auto 40px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* small screens */
+    @media (max-width:920px){
+      main{grid-template-columns:1fr; padding-bottom:36px}
+      .grid{grid-template-columns:repeat(2,1fr)}
+    }
+
+    @media (max-width:520px){
+      .grid{grid-template-columns:1fr}
+      .hero{flex-direction:column;align-items:flex-start}
+      .avatar{width:86px;height:86px;border-radius:12px}
+    }
+
+    /* a few micro animations */
+    .btn:hover{transform:translateY(-3px);transition:all .18s ease}
+    .avatar{transition:transform .32s ease}
+    .avatar:hover{transform:translateY(-6px) rotate(-2deg)}
+    .mini{transition:transform .18s ease}
+    .mini:hover{transform:translateY(-6px)}
+    .modal{
+      position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,0.5);z-index:9999;
+    }
+    .modal.show{display:grid}
+    .modal .box{width:min(880px,92%);border-radius:16px;overflow:hidden;background:var(--card);box-shadow:0 18px 60px rgba(0,0,0,0.45)}
+    .modal img{width:100%;height:auto;display:block}
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="brand">
+      <div class="avatar" aria-hidden="true">
+        <!-- Cute simple SVG avatar — 可自行替換成 <img src="yourphoto.jpg"> -->
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="avatar">
+          <rect x="0" y="0" width="64" height="64" rx="12" fill="white" opacity="0.06"/>
+          <g transform="translate(8,6)" fill="none" stroke="#fff" stroke-width="2">
+            <circle cx="24" cy="18" r="14" fill="transparent" stroke-opacity="0.15"/>
+            <path d="M12 36c4-4 20-4 24 0" stroke-opacity="0.12" stroke-linecap="round"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="name">
+        <h1>品萱（PinXuan）</h1>
+        <p>喜歡 Seventeen、韓系氣質可愛風 • 愛陽光與清泉的溫柔</p>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="btn" id="themeToggle" aria-pressed="false">切換主題</button>
+      <a class="btn" href="#contact">聯絡我</a>
+    </div>
+  </header>
+
+  <main>
+    <div>
+      <section class="card hero" aria-labelledby="intro-title">
+        <div class="intro">
+          <p class="greeting" id="intro-title">嗨，我是品萱 👋</p>
+          <p class="bio">我喜歡韓系氣質的柔和美感，也很愛 Seventeen（尤其是淨漢的短髮造型🫶）。我對設計跟動畫有興趣，夢想是做偶像相關的視覺或成為動畫師。這裡放一些我的小作品、心情與旅行靈感。</p>
+
+          <div class="tags" aria-hidden="true">
+            <span class="tag">Seventeen • Carat</span>
+            <span class="tag">淨漢迷</span>
+            <span class="tag">旅遊靈感</span>
+            <span class="tag">設計手帳</span>
+          </div>
+        </div>
+
+        <!-- Quick stats / highlight in hero -->
+        <div style="min-width:160px;text-align:right;">
+          <div style="background:linear-gradient(135deg,var(--accent),var(--accent-2));padding:12px;border-radius:12px;color:#2b2b2b;box-shadow:var(--shadow)">
+            <div style="font-weight:700;font-size:18px">夢想職業</div>
+            <div style="opacity:.9;margin-top:6px">idol / 動畫設計</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card section" aria-labelledby="work-title">
+        <h2 id="work-title">喜好 & 小作品</h2>
+        <div class="grid">
+          <div class="mini">
+            <strong>最愛歌曲</strong>
+            <div style="margin-top:8px;color:var(--muted)">《Second Life》、《Same Dream, Same Mind, Same Night》</div>
+          </div>
+          <div class="mini">
+            <strong>風格靈感</strong>
+            <div style="margin-top:8px;color:var(--muted)">韓系氣質、少女感、清新粉藍</div>
+          </div>
+          <div class="mini">
+            <strong>旅行夢單</strong>
+            <div style="margin-top:8px;color:var(--muted)">義大利各城市、隨遇而安的自由行</div>
+          </div>
+          <div class="mini">
+            <strong>最近收藏</strong>
+            <div style="margin-top:8px;color:var(--muted)">短髮淨漢小卡（虎掌淨）</div>
+          </div>
+          <div class="mini">
+            <strong>作品預覽</strong>
+            <div style="margin-top:8px;color:var(--muted)">視覺設計手稿 / 插畫草圖</div>
+          </div>
+          <div class="mini">
+            <strong>學習中</strong>
+            <div style="margin-top:8px;color:var(--muted)">前端、Photoshop、動畫分鏡</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card section" aria-labelledby="gallery-title">
+        <h2 id="gallery-title">相簿牆</h2>
+        <p style="margin:0 0 12px;color:var(--muted)">點圖可放大（先放示意圖，請替換成你的照片或小卡）</p>
+        <div class="gallery" id="gallery">
+          <!-- 替換 src 為你的圖片 -->
+          <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=6d3e9b1f" alt="示意1" data-full="https://images.unsplash.com/photo-1513364776144-60967b0f800f">
+          <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=5f6d9b1c" alt="示意2" data-full="https://images.unsplash.com/photo-1524504388940-b1c1722653e1">
+          <img src="https://images.unsplash.com/photo-1542204165-8c4c64e7c3e2?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=8deb4b6d" alt="示意3" data-full="https://images.unsplash.com/photo-1542204165-8c4c64e7c3e2">
+          <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=7e6c4f8f" alt="示意4" data-full="https://images.unsplash.com/photo-1515879218367-8466d910aaa4">
+        </div>
+      </section>
+
+      <section class="card section" id="contact" aria-labelledby="contact-title">
+        <h2 id="contact-title">聯絡我</h2>
+        <p style="margin:0 0 8px;color:var(--muted)">想跟我聊 Seventeen、設計或交換旅行筆記都歡迎～</p>
+
+        <form id="contactForm" onsubmit="return handleSubmit(event)">
+          <input type="text" id="name" placeholder="你的名字" required>
+          <input type="email" id="email" placeholder="你的 Email" required>
+          <textarea id="message" placeholder="想說的話..." required></textarea>
+          <div style="display:flex;gap:8px">
+            <button type="submit" class="btn" style="flex:1">送出（示範）</button>
+            <button type="button" class="btn" onclick="fillDemo()" style="flex:0.6">填入範例</button>
+          </div>
+        </form>
+        <p id="note" style="color:var(--muted);font-size:13px;margin-top:8px">注意：此示範表單不包含後端寄信功能，若要實際收信請連接 Mail API 或使用第三方表單服務。</p>
+      </section>
+    </div>
+
+    <aside>
+      <div class="card profile-stats" aria-label="快速資訊">
+        <div class="stat">
+          <h3>淨漢</h3>
+          <p>我的初戀（XD）</p>
+        </div>
+        <div class="stat">
+          <h3>淺夏 / 氣質</h3>
+          <p>穿搭風格</p>
+        </div>
+      </div>
+
+      <div class="card section" style="margin-top:14px" aria-labelledby="side-title">
+        <h2 id="side-title">小檔案</h2>
+        <p style="margin:6px 0;color:var(--muted)"><strong>名字：</strong>品萱（PinXuan）</p>
+        <p style="margin:6px 0;color:var(--muted)"><strong>MBTI：</strong>ENFJ</p>
+        <p style="margin:6px 0;color:var(--muted)"><strong>興趣：</strong>設計、偶像文化、旅行</p>
+        <div style="margin-top:8px">
+          <a class="btn" href="#" onclick="alert('點擊下載簡歷（示意）')">下載簡歷</a>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    © <span id="year"></span> 品萱 • 這是我的個人示範頁面 • 想要更多客製化內容，就跟我說！
+  </footer>
+
+  <!-- image modal -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="box" role="document">
+      <img id="modalImg" src="" alt="放大圖片">
+    </div>
+  </div>
+
+  <script>
+    // set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // theme toggle
+    const themeBtn = document.getElementById('themeToggle');
+    themeBtn.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      themeBtn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+      themeBtn.textContent = isDark ? '切換亮色' : '切換暗色';
+    });
+
+    // gallery click -> modal
+    const gallery = document.getElementById('gallery');
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modalImg');
+    gallery.addEventListener('click', (e) => {
+      const img = e.target.closest('img');
+      if (!img) return;
+      const full = img.dataset.full || img.src;
+      modalImg.src = full;
+      modal.classList.add('show');
+      modal.setAttribute('aria-hidden','false');
+    });
+    modal.addEventListener('click', () => {
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden','true');
+      modalImg.src = '';
+    });
+
+    // contact form (frontend only)
+    function handleSubmit(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      if(!name || !email || !message){
+        alert('請填寫所有欄位喔');
+        return false;
+      }
+      // 前端示範：顯示送出結果（若要真實送出，需串接 API）
+      alert(`謝謝 ${name}！\n我已收到你的訊息（示範）。\nEmail: ${email}`);
+      e.target.reset();
+      return false;
+    }
+
+    // demo fill
+    function fillDemo(){
+      document.getElementById('name').value = '小明';
+      document.getElementById('email').value = 'xiaoming@example.com';
+      document.getElementById('message').value = '嗨品萱！我也喜歡 Seventeen，想和你交換歌單～';
+    }
+  </script>
+</body>
+</html>
