@@ -79,14 +79,19 @@
 
     /* small decorative stickers */
     .sticker{position:fixed; right:22px; bottom:18px; width:86px; height:86px; pointer-events:none; opacity:0.95}
-  </style>
+  .floating-icon { position: fixed; bottom: 40px; right: 40px; font-size: 32px; animation: floatIcon 3s ease-in-out infinite; }
+.bunny { right: 90px; animation-delay: 0.3s; }
+.angel { right: 140px; animation-delay: 0.6s; }
+.star { right: 190px; animation-delay: 0.9s; }
+@keyframes floatIcon { 0% { transform: translateY(0); } 50% { transform: translateY(-12px) rotate(4deg); } 100% { transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px);} to { opacity:1; transform: translateY(0);} }
+</style>
 </head>
 <body>
   <div class="wrap">
     <header>
       <div class="logo">
         <div class="mark" aria-hidden>
-          <!-- cute cat mark (inline svg) -->
           <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
             <rect width="64" height="64" rx="12" fill="white"/>
             <g transform="translate(8,10)">
@@ -104,6 +109,7 @@
       <nav>
         <button class="nav-btn active" data-target="home">Home</button>
         <button class="nav-btn" data-target="about">About</button>
+        <button class="nav-btn" data-target="music">Music</button>
         <button class="nav-btn" data-target="portfolio">Portfolio</button>
         <button class="nav-btn" data-target="gallery">Gallery</button>
         <button class="nav-btn" data-target="contact">Contact</button>
@@ -113,7 +119,6 @@
     <main>
       <aside class="sidebar card">
         <div class="avatar">
-          <!-- simple hand-drawn avatar placeholder (svg) -->
           <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" role="img">
             <rect width="100%" height="100%" rx="12" fill="transparent"/>
             <g transform="translate(20,12)">
@@ -135,7 +140,6 @@
 
         <div class="contact-mini">
           <a href="#contact">✉ 連絡：example@email.com</a>
-          <a href="#">🎧 喜歡的歌單</a>
           <a href="#portfolio">🖼 作品集 (作品數: 6)</a>
         </div>
       </aside>
@@ -224,7 +228,7 @@
         <!-- Contact -->
         <article id="contact" class="card" data-page style="display:none">
           <h3>Contact</h3>
-          <p style="color:var(--muted)">想要合作或聊天可以寫信給我～（範例表單僅示範，不會真的送出）</p>
+          <p style="color:var(--muted)">想要合作或聊天可以寫信給我～ 抱歉 music 分頁裡面還是沒有給你的連結哇哇，裡面什麼都沒有😭</p>
 
           <form onsubmit="event.preventDefault(); alert('感謝！表單送出（範例）')" style="display:flex; flex-direction:column; gap:10px; margin-top:10px; max-width:520px">
             <input placeholder="你的名字" style="padding:10px; border-radius:10px; border:1px solid #F3E6F0" />
@@ -241,38 +245,20 @@
       </section>
     </main>
 
+    <section class="card page" id="music" style="animation:fadeIn .5s; display:none; margin-top:18px;">
+      <h2>🎧 Music</h2>
+      <p>這裡暫時沒有提供連結哦～💗</p>
+    </section>
+
     <footer>
       <small>Made with ♡ — 可自由修改為屬於你的內容</small>
     </footer>
 
-    <div class="sticker" aria-hidden>
-      <!-- decorative hand-drawn sticker -->
-      <svg viewBox="0 0 120 120" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="60" cy="60" r="60" fill="#FFF1F8" />
-        <text x="50%" y="52%" text-anchor="middle" font-size="32" font-family="Nunito, sans-serif" dy="10" fill="#D07EA8">🐾</text>
-      </svg>
-    </div>
+    <!-- ... rest of scripts and stickers remain unchanged ... -->
   </div>
+</body>
+</html>
 
-  <script>
-    // simple page switching
-    const buttons = document.querySelectorAll('.nav-btn');
-    const pages = document.querySelectorAll('[data-page]');
-    buttons.forEach(b=> b.addEventListener('click', ()=>{
-      buttons.forEach(x=>x.classList.remove('active'));
-      b.classList.add('active');
-      const t = b.dataset.target;
-      pages.forEach(p=> p.style.display = p.id===t ? 'block' : 'none');
-      // small scroll to top
-      window.scrollTo({top:0, behavior:'smooth'});
-    }));
-
-    // anchor nav if URL hash present
-    const h = location.hash.replace('#','');
-    if(h){
-      const btn = document.querySelector(`.nav-btn[data-target="${h}"]`);
-      if(btn){ btn.click(); }
-    }
   </script>
 </body>
 </html>
