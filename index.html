@@ -1,243 +1,278 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>午後的咖啡日常</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>品萱的韓系可愛個人網站</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&family=Nunito:wght@300;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#FFF8FB; /* very light pink */
+      --card:#fff;
+      --accent:#FFD6E8; /* soft pink */
+      --accent-2:#FFF2CC; /* soft yellow */
+      --muted:#9B8FB3; /* soft grayish purple */
+      --glass: rgba(255,255,255,0.7);
+      --shadow: 0 8px 20px rgba(99,72,114,0.08);
+      --radius:18px;
+      --maxw:980px;
+      font-family: 'Nanum Gothic', 'Nunito', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; background:var(--bg); color:#433656; -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale; padding:30px 18px; display:flex; justify-content:center;
+    }
+    .wrap{width:100%; max-width:var(--maxw);}
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Nunito:wght@200;300;400;600&display=swap" rel="stylesheet">
+    header{display:flex; align-items:center; gap:16px; margin-bottom:18px}
+    .logo{display:flex; gap:12px; align-items:center}
+    .logo .mark{width:58px; height:58px; border-radius:12px; background:linear-gradient(135deg,#FFE3F3,#FFF2CC); display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow)}
+    .logo .mark svg{width:36px; height:36px}
+    .site-title{line-height:1}
+    .site-title h1{margin:0; font-size:18px}
+    .site-title p{margin:0; font-size:12px; color:var(--muted)}
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    nav{display:flex; gap:10px; margin-left:auto}
+    .nav-btn{background:transparent; border:none; padding:8px 12px; border-radius:12px; cursor:pointer; font-weight:700}
+    .nav-btn.active{background:var(--card); box-shadow:var(--shadow)}
 
-    <style>
-        body {
-            margin: 0;
-            background: #F5F3F0;
-            font-family: 'Nunito', sans-serif;
-            color: #5B4F47;
-            background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
-        }
+    main{display:grid; grid-template-columns: 320px 1fr; gap:22px}
 
-        header {
-            text-align: center;
-            padding: 70px 20px 40px;
-        }
+    /* sidebar */
+    .sidebar{background:var(--card); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow); height:fit-content}
+    .avatar{width:100%; border-radius:14px; overflow:hidden; background:linear-gradient(180deg,#FFF8FF,#FFF2CC); padding:12px}
+    .avatar svg{display:block; width:100%; height:auto}
+    .name{font-size:18px; font-weight:800; margin-top:10px}
+    .role{color:var(--muted); margin-top:6px; font-size:13px}
+    .taglist{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px}
+    .tag{background:var(--accent); padding:6px 10px; border-radius:999px; font-size:12px; box-shadow:0 6px 12px rgba(255,173,214,0.18)}
 
-        h1 {
-            font-family: 'Nanum Pen Script', cursive;
-            font-size: 70px;
-            color: #6E5A54;
-            margin: 0;
-        }
+    .contact-mini{margin-top:14px; display:flex; flex-direction:column; gap:6px}
+    .contact-mini a{font-size:13px; text-decoration:none; color:inherit}
 
-        .subtitle {
-            font-size: 18px;
-            margin-top: 10px;
-            color: #8A817A;
-        }
+    /* content card */
+    .card{background:var(--card); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow)}
+    .hero{display:flex; gap:16px; align-items:center}
+    .hero .hello{font-size:20px; font-weight:800}
+    .hero p{margin:6px 0 0 0; color:var(--muted)}
 
-        /* Section Title */
-        .section-title {
-            font-family: 'Nanum Pen Script';
-            font-size: 48px;
-            text-align: center;
-            margin: 60px 0 20px;
-            color: #6E5A54;
-        }
+    /* gallery grid */
+    .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:12px}
+    .thumb{border-radius:12px; padding:12px; background:linear-gradient(180deg,#FFF,#FFF8FF); min-height:86px; display:flex; align-items:center; justify-content:center}
 
-        /* Intro Section */
-        .intro-box {
-            max-width: 700px;
-            background: white;
-            margin: 0 auto;
-            padding: 30px;
-            border-radius: 16px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            line-height: 1.8;
-        }
+    /* portfolio list */
+    .project{display:flex; gap:12px; align-items:flex-start; margin-top:12px}
+    .project .dot{width:46px; height:46px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:var(--accent-2)}
+    .project h4{margin:0}
+    .project p{margin:6px 0 0 0; color:var(--muted); font-size:13px}
 
-        .highlight {
-            font-weight: 600;
-            color: #6E5A54;
-        }
+    footer{margin-top:20px; text-align:center; color:var(--muted); font-size:13px}
 
-        /* Cat Section */
-        .cat-box {
-            max-width: 500px;
-            margin: 0 auto;
-            background: #FFFFFF;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            text-align: center;
-        }
+    /* responsive */
+    @media (max-width:860px){
+      main{grid-template-columns:1fr;}
+      .sidebar{order:2}
+    }
 
-        .cat-img {
-            width: 100%;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            opacity: 0.95;
-        }
-
-        /* Button */
-        .menu-btn {
-            display: block;
-            margin: 40px auto;
-            padding: 12px 28px;
-            border-radius: 30px;
-            border: none;
-            background: #E3D5CA;
-            color: #5B4F47;
-            cursor: pointer;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-        .menu-btn:hover {
-            background: #D6CCC2;
-        }
-
-        /* Menu Section */
-        #menu-section {
-            display: none;
-            padding-bottom: 50px;
-        }
-
-        .menu-title {
-            font-family: 'Nanum Pen Script', cursive;
-            font-size: 50px;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        /* slider */
-        .slider {
-            display: flex;
-            overflow-x: auto;
-            gap: 20px;
-            padding: 20px;
-            scroll-snap-type: x mandatory;
-        }
-
-        .slider::-webkit-scrollbar {
-            height: 8px;
-        }
-        .slider::-webkit-scrollbar-thumb {
-            background: #D6CCC2;
-            border-radius: 5px;
-        }
-
-        .slide-card {
-            min-width: 260px;
-            background: #FFFFFF;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            scroll-snap-align: center;
-            text-align: center;
-        }
-
-        .slide-img {
-            width: 100%;
-            border-radius: 12px;
-            margin-bottom: 15px;
-        }
-
-        .item-name {
-            font-family: 'Nanum Pen Script';
-            font-size: 36px;
-            margin: 10px 0;
-        }
-
-        .item-desc {
-            font-size: 14px;
-            color: #7A6F68;
-        }
-
-        .item-price {
-            margin-top: 8px;
-            font-weight: bold;
-            color: #6E5A54;
-        }
-    </style>
+    /* small decorative stickers */
+    .sticker{position:fixed; right:22px; bottom:18px; width:86px; height:86px; pointer-events:none; opacity:0.95}
+  </style>
 </head>
 <body>
+  <div class="wrap">
+    <header>
+      <div class="logo">
+        <div class="mark" aria-hidden>
+          <!-- cute cat mark (inline svg) -->
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+            <rect width="64" height="64" rx="12" fill="white"/>
+            <g transform="translate(8,10)">
+              <path d="M20 2c-4 0-8 3-8 7s4 11 8 11 8-7 8-11-4-7-8-7z" fill="#FFB6D5"/>
+              <circle cx="12" cy="16" r="2" fill="#733C5B"/>
+            </g>
+          </svg>
+        </div>
+        <div class="site-title">
+          <h1>品萱的韓系可愛角落</h1>
+          <p>溫柔、少女、手繪感</p>
+        </div>
+      </div>
 
-<header>
-    <h1>品萱的咖啡日常</h1>
-    <div class="subtitle">a place of soft vibes & sweet moments</div>
-</header>
+      <nav>
+        <button class="nav-btn active" data-target="home">Home</button>
+        <button class="nav-btn" data-target="about">About</button>
+        <button class="nav-btn" data-target="portfolio">Portfolio</button>
+        <button class="nav-btn" data-target="gallery">Gallery</button>
+        <button class="nav-btn" data-target="contact">Contact</button>
+      </nav>
+    </header>
 
-<!-- 介紹區 -->
-<div class="section-title">About Our Café</div>
-<div class="intro-box">
-    這裡是一間為了喜歡 <span class="highlight">溫柔午後時光</span> 而誕生的咖啡廳。  
-    我們希望每位走進來的客人，都能在這裡找到一份屬於自己的寧靜。  
-    <br><br>
-    ☀ <span class="highlight">營業時間：</span> 10:00 - 20:00  
-    <br>
-    ☕ <span class="highlight">特色：</span> 柔霧美學 · 手作甜點 · 舒心音樂 · 店貓陪伴
-    <br><br>
-    歡迎坐下來，慢慢地讓心安靜下來。
-</div>
+    <main>
+      <aside class="sidebar card">
+        <div class="avatar">
+          <!-- simple hand-drawn avatar placeholder (svg) -->
+          <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" role="img">
+            <rect width="100%" height="100%" rx="12" fill="transparent"/>
+            <g transform="translate(20,12)">
+              <ellipse cx="120" cy="96" rx="92" ry="72" fill="#FFF6FB" stroke="#FFD6E8" stroke-width="3" />
+              <circle cx="90" cy="80" r="16" fill="#FFF" stroke="#F4C2D1" />
+              <circle cx="150" cy="80" r="16" fill="#FFF" stroke="#F4C2D1" />
+              <path d="M95 120 q25 22 50 0" stroke="#C18AA9" stroke-width="4" fill="none" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </div>
+        <div class="name">品萱（可修改）</div>
+        <div class="role">喜歡 Seventeen ・ 愛旅行 ・ 設計與手繪</div>
 
-<!-- 店貓 -->
-<div class="section-title">Our Cat</div>
-<div class="cat-box">
-    <img class="cat-img" src="https://i.imgur.com/7Y7ZQFf.jpeg" alt="店貓">
-    <h3 style="font-family: 'Nanum Pen Script'; font-size: 38px;">奶油 Butter</h3>
-    <p style="color:#7A6F68;">最喜歡在陽光下睡午覺，也喜歡在你偷吃甜點的時候盯著你看。  
-    是咖啡廳最溫柔、最療癒的小伙伴。</p>
-</div>
-
-<!-- 按鈕 -->
-<button class="menu-btn">☕ 查看今日菜單</button>
-
-<!-- 菜單 -->
-<section id="menu-section">
-    <div class="menu-title">Today's Specials</div>
-
-    <!-- Slider -->
-    <div class="slider">
-
-        <div class="slide-card">
-            <img class="slide-img" src="https://i.imgur.com/PVEUeMB.jpeg">
-            <div class="item-name">雲朵檸檬塔</div>
-            <div class="item-desc">清爽酸甜，像春日的第一口陽光。</div>
-            <div class="item-price">$150</div>
+        <div class="taglist">
+          <div class="tag">#韓系</div>
+          <div class="tag">#可愛</div>
+          <div class="tag">#手繪風</div>
         </div>
 
-        <div class="slide-card">
-            <img class="slide-img" src="https://i.imgur.com/JQS3ZZS.jpeg">
-            <div class="item-name">榛果巧克力慕斯</div>
-            <div class="item-desc">濃郁滑順的大人系甜蜜。</div>
-            <div class="item-price">$180</div>
+        <div class="contact-mini">
+          <a href="#contact">✉ 連絡：example@email.com</a>
+          <a href="#">🎧 喜歡的歌單</a>
+          <a href="#portfolio">🖼 作品集 (作品數: 6)</a>
         </div>
+      </aside>
 
-        <div class="slide-card">
-            <img class="slide-img" src="https://i.imgur.com/35mDSxB.jpeg">
-            <div class="item-name">海鹽拿鐵</div>
-            <div class="item-desc">海鹽的溫柔與奶香完美融合。</div>
-            <div class="item-price">$140</div>
-        </div>
+      <section class="content">
+        <!-- Home -->
+        <article id="home" class="card" data-page>
+          <div class="hero">
+            <div>
+              <div class="hello">嗨！我是品萱 👋</div>
+              <p>歡迎來到我的小天地！這裡記錄我的作品、旅行與日常小插畫。</p>
+            </div>
+            <div style="margin-left:auto; text-align:right">
+              <small style="color:var(--muted)">更新：2025/11/30</small>
+            </div>
+          </div>
 
-        <div class="slide-card">
-            <img class="slide-img" src="https://i.imgur.com/zJk4UUa.jpeg">
-            <div class="item-name">晨光白桃茶</div>
-            <div class="item-desc">淡淡果香，像微風一樣輕盈。</div>
-            <div class="item-price">$120</div>
-        </div>
+          <section style="margin-top:12px">
+            <h3>自我簡介</h3>
+            <p style="color:var(--muted)">在這裡放一段短短的自我介紹，像是你的專長、興趣、目前就讀或工作狀態。建議 2-3 句，說明你喜歡的風格與你想做的事情。</p>
+          </section>
 
+          <div style="display:flex; gap:12px; margin-top:14px; flex-wrap:wrap">
+            <div class="card" style="flex:1; min-width:200px;">
+              <h4>技能</h4>
+              <p style="color:var(--muted)">Photoshop / Illustrator / HTML & CSS / 手繪插畫</p>
+            </div>
+            <div class="card" style="flex:1; min-width:200px;">
+              <h4>興趣</h4>
+              <p style="color:var(--muted)">看演唱會 / 旅行 / 做餅乾 / 看 Seventeen 的舞台</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- About -->
+        <article id="about" class="card" data-page style="display:none">
+          <h3>關於我</h3>
+          <p style="color:var(--muted)">這裡可以放更長的自傳、學經歷、得獎紀錄或人生小故事。可以用時間軸或小卡片分段呈現。</p>
+
+          <div style="margin-top:12px">
+            <h4>時間軸</h4>
+            <div style="display:flex; gap:10px; flex-direction:column">
+              <div style="background:var(--accent); padding:10px; border-radius:12px">2025 - 畢業旅行：第一次出國（或其他事件）</div>
+              <div style="background:var(--accent-2); padding:10px; border-radius:12px">2024 - 加入設計社 / 參加比賽</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Portfolio -->
+        <article id="portfolio" class="card" data-page style="display:none">
+          <h3>作品集</h3>
+          <p style="color:var(--muted)">挑選 4-8 件代表作品，放縮圖與簡短說明（工具 / 製作時間 / 連結）。</p>
+
+          <div class="project">
+            <div class="dot">🐱</div>
+            <div>
+              <h4>手繪插畫：夢幻小物</h4>
+              <p>工具：Procreate / 時間：2025.06 / 描述：以韓系溫柔色系為主題的角色插畫。</p>
+            </div>
+          </div>
+
+          <div class="project">
+            <div class="dot">🍪</div>
+            <div>
+              <h4>包裝設計：手作餅乾盒</h4>
+              <p>工具：Illustrator / 時間：2025.09 / 描述：甜美風格的包裝設計，適合節慶贈禮。</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Gallery -->
+        <article id="gallery" class="card" data-page style="display:none">
+          <h3>小畫廊</h3>
+          <p style="color:var(--muted)">展示手繪圖或旅遊照片。建議使用 3-column 縮圖排列。</p>
+
+          <div class="grid">
+            <div class="thumb">插畫 1</div>
+            <div class="thumb">插畫 2</div>
+            <div class="thumb">插畫 3</div>
+            <div class="thumb">插畫 4</div>
+            <div class="thumb">插畫 5</div>
+            <div class="thumb">插畫 6</div>
+          </div>
+        </article>
+
+        <!-- Contact -->
+        <article id="contact" class="card" data-page style="display:none">
+          <h3>Contact</h3>
+          <p style="color:var(--muted)">想要合作或聊天可以寫信給我～（範例表單僅示範，不會真的送出）</p>
+
+          <form onsubmit="event.preventDefault(); alert('感謝！表單送出（範例）')" style="display:flex; flex-direction:column; gap:10px; margin-top:10px; max-width:520px">
+            <input placeholder="你的名字" style="padding:10px; border-radius:10px; border:1px solid #F3E6F0" />
+            <input placeholder="你的 Email" style="padding:10px; border-radius:10px; border:1px solid #F3E6F0" />
+            <textarea placeholder="想說的話" rows="4" style="padding:10px; border-radius:10px; border:1px solid #F3E6F0"></textarea>
+            <button style="padding:10px 12px; border-radius:12px; border:none; background:linear-gradient(90deg,#FFB6D5,#FFD6E8); font-weight:700; cursor:pointer">送出</button>
+          </form>
+
+          <div style="margin-top:12px; color:var(--muted)">
+            <p>或直接寫信：example@email.com</p>
+          </div>
+        </article>
+
+      </section>
+    </main>
+
+    <footer>
+      <small>Made with ♡ — 可自由修改為屬於你的內容</small>
+    </footer>
+
+    <div class="sticker" aria-hidden>
+      <!-- decorative hand-drawn sticker -->
+      <svg viewBox="0 0 120 120" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="60" r="60" fill="#FFF1F8" />
+        <text x="50%" y="52%" text-anchor="middle" font-size="32" font-family="Nunito, sans-serif" dy="10" fill="#D07EA8">🐾</text>
+      </svg>
     </div>
-</section>
+  </div>
 
-<script>
-    $(".menu-btn").click(function(){
-        $("#menu-section").fadeToggle(600);
-    });
-</script>
+  <script>
+    // simple page switching
+    const buttons = document.querySelectorAll('.nav-btn');
+    const pages = document.querySelectorAll('[data-page]');
+    buttons.forEach(b=> b.addEventListener('click', ()=>{
+      buttons.forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      const t = b.dataset.target;
+      pages.forEach(p=> p.style.display = p.id===t ? 'block' : 'none');
+      // small scroll to top
+      window.scrollTo({top:0, behavior:'smooth'});
+    }));
 
+    // anchor nav if URL hash present
+    const h = location.hash.replace('#','');
+    if(h){
+      const btn = document.querySelector(`.nav-btn[data-target="${h}"]`);
+      if(btn){ btn.click(); }
+    }
+  </script>
 </body>
 </html>
