@@ -92,6 +92,7 @@
     <header>
       <div class="logo">
         <div class="mark" aria-hidden>
+          <!-- cute cat mark (inline svg) -->
           <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
             <rect width="64" height="64" rx="12" fill="white"/>
             <g transform="translate(8,10)">
@@ -109,16 +110,17 @@
       <nav>
         <button class="nav-btn active" data-target="home">Home</button>
         <button class="nav-btn" data-target="about">About</button>
-        <button class="nav-btn" data-target="music">Music</button>
         <button class="nav-btn" data-target="portfolio">Portfolio</button>
         <button class="nav-btn" data-target="gallery">Gallery</button>
         <button class="nav-btn" data-target="contact">Contact</button>
       </nav>
+        <button class="nav-btn" data-target="playlist">喜歡的歌單</button>
     </header>
 
     <main>
       <aside class="sidebar card">
         <div class="avatar">
+          <!-- simple hand-drawn avatar placeholder (svg) -->
           <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" role="img">
             <rect width="100%" height="100%" rx="12" fill="transparent"/>
             <g transform="translate(20,12)">
@@ -140,6 +142,7 @@
 
         <div class="contact-mini">
           <a href="#contact">✉ 連絡：example@email.com</a>
+          <a href="#">🎧 喜歡的歌單</a>
           <a href="#portfolio">🖼 作品集 (作品數: 6)</a>
         </div>
       </aside>
@@ -228,7 +231,7 @@
         <!-- Contact -->
         <article id="contact" class="card" data-page style="display:none">
           <h3>Contact</h3>
-          <p style="color:var(--muted)">想要合作或聊天可以寫信給我～ 抱歉 music 分頁裡面還是沒有給你的連結哇哇，裡面什麼都沒有😭</p>
+          <p style="color:var(--muted)">想要合作或聊天可以寫信給我～（範例表單僅示範，不會真的送出）</p>
 
           <form onsubmit="event.preventDefault(); alert('感謝！表單送出（範例）')" style="display:flex; flex-direction:column; gap:10px; margin-top:10px; max-width:520px">
             <input placeholder="你的名字" style="padding:10px; border-radius:10px; border:1px solid #F3E6F0" />
@@ -245,20 +248,107 @@
       </section>
     </main>
 
-    <section class="card page" id="music" style="animation:fadeIn .5s; display:none; margin-top:18px;">
-      <h2>🎧 Music</h2>
-      <p>這裡暫時沒有提供連結哦～💗</p>
-    </section>
-
     <footer>
       <small>Made with ♡ — 可自由修改為屬於你的內容</small>
     </footer>
 
-    <!-- ... rest of scripts and stickers remain unchanged ... -->
+    <div class="sticker" aria-hidden>
+      <!-- decorative hand-drawn sticker -->
+      <svg viewBox="0 0 120 120" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="60" r="60" fill="#FFF1F8" />
+        <text x="50%" y="52%" text-anchor="middle" font-size="32" font-family="Nunito, sans-serif" dy="10" fill="#D07EA8">🐾</text>
+      </svg>
+    </div>
   </div>
-</body>
-</html>
 
+  <script>
+    // simple page switching
+    const buttons = document.querySelectorAll('.nav-btn');
+    const pages = document.querySelectorAll('[data-page]');
+    buttons.forEach(b=> b.addEventListener('click', ()=>{
+      buttons.forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      const t = b.dataset.target;
+      pages.forEach(p=> p.style.display = p.id===t ? 'block' : 'none');
+      // small scroll to top
+      window.scrollTo({top:0, behavior:'smooth'});
+    }));
+
+    // anchor nav if URL hash present
+    const h = location.hash.replace('#','');
+    if(h){
+      const btn = document.querySelector(`.nav-btn[data-target="${h}"]`);
+      if(btn){ btn.click(); }
+    }
+  </script>
+  <!-- Floating Bubbles Effect -->
+  <div id="bubbles"></div>
+  <style>
+    #bubbles{position:fixed; left:0; top:0; width:100%; height:100%; pointer-events:none; overflow:hidden; z-index:1}
+    .bubble{position:absolute; bottom:-50px; width:20px; height:20px; border-radius:50%; background:rgba(255,182,213,0.4); filter:blur(2px); animation:floatUp 8s linear infinite}
+    @keyframes floatUp{0%{transform:translateY(0) scale(1); opacity:1} 100%{transform:translateY(-120vh) scale(1.6); opacity:0}}
+  </style>
+  <script>
+    for(let i=0;i<20;i++){
+      const b=document.createElement('div');
+      b.className='bubble';
+      b.style.left=Math.random()*100+'%';
+      b.style.width=b.style.height=(10+Math.random()*30)+'px';
+      b.style.animationDelay=(Math.random()*5)+'s';
+      document.getElementById('bubbles').appendChild(b);
+    }
+  </script>
+
+  <!-- Scroll Fade Effect -->
+  <style>
+    .fade{opacity:0; transform:translateY(20px); transition:0.8s ease}
+    .fade.show{opacity:1; transform:translateY(0)}
+  </style>
+  <script>
+    const fadeEls=document.querySelectorAll('.card, .project, .thumb');
+    const obs=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show')}})
+    },{threshold:0.1});
+    fadeEls.forEach(el=>{el.classList.add('fade'); obs.observe(el);});
+  </script>
+
+  <!-- Cute 3D Floating Stickers -->
+  <div class="sticker3d" id="sticker3d">💖</div>
+  <style>
+    .sticker3d{position:fixed; left:20px; bottom:20px; font-size:42px; animation:float3d 4s ease-in-out infinite; pointer-events:none}
+    @keyframes float3d{0%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-14px) rotate(8deg)}100%{transform:translateY(0) rotate(0deg)}}
+  </style>
+
+  <!-- Floating IG Button Placeholder -->
+  <a href="https://www.instagram.com/xuan.0630__?igsh=MTE2b3FtdXJqajI3MA%3D%3D&utm_source=qr" class="ig-btn" target="_blank">IG</a>
+  <style>
+    .ig-btn{position:fixed; right:22px; bottom:22px; background:var(--accent); padding:14px 20px; border-radius:999px; font-weight:700; box-shadow:var(--shadow); text-decoration:none; color:#433656; z-index:10; animation:pop 2.5s ease-in-out infinite}
+    @keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+  </style>
+  <div class="floating-icon bunny">🐰</div>
+  <div class="floating-icon angel">🪽</div>
+  <div class="floating-icon star">✨</div>
+  <section id="playlist" class="card page" style="display:none; animation:fadeIn 0.4s ease; margin-top:20px;">
+    <h2>🎧 喜歡的歌單</h2>
+    <p>把連結貼給我後我會幫你放上來 💗</p>
+    <ul id="playlist-links" style="margin-top:10px; line-height:1.8;"></ul>
+  </section>
+
+  <script>
+    const btns = document.querySelectorAll('.nav-btn');
+    const pages = document.querySelectorAll('.page');
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        btns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const target = btn.dataset.target;
+        pages.forEach(p => {
+          p.style.display = (p.id === target) ? 'block' : 'none';
+        });
+      });
+    });
   </script>
 </body>
 </html>
